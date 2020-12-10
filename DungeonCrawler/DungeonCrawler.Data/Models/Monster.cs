@@ -6,6 +6,7 @@ namespace DungeonCrawler.Data.Models
 {
 	public class Monster : Entity
 	{
+
 		//public int MyProperty { get; set; }
 	}
 }

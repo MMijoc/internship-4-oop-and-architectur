@@ -11,45 +11,41 @@ namespace DungeonCrawler.Domain.Services
 		public static void NewGame()
 		{
 			//var hero = Select.SelectHeroClass();
+			//postavit izbor za rucno postavaljanje HP, XP-a i Levela
 			int G = 0;
 			int B = 0;
 			int W = 0;
-			for (var i = 1; i <= GameData.numberOfEnemies; i++)
+
+			for (int i = 0; i < GameData.numberOfEnemies; i++)
 			{
-				Console.Write($"{i}: ");
-				var n= GenerateMoster();
-				switch(n)
+				GenerateMoster();
+			}
+
+
+			foreach (var mosnter in GameData.EnemyList)
+			{
+				if (mosnter is Witch)
 				{
-					case 3:
-						W++;
-						break;
-					case 2:
-						B++;
-						break;
-					case 1:
-						G++;
-						break;
+					Console.Write("Witch: ");
+					W++;
 				}
+				if (mosnter is Brute)
+				{
+					Console.Write("Brute: ");
+					B++;
+				}
+				if (mosnter is Goblin)
+				{
+					Console.Write("Goblin: ");
+					G++;
+				}
+				Console.WriteLine($"HP: {mosnter.Health} EXP: {mosnter.Experience} DMG: {mosnter.Damage}");
 			}
 			Console.WriteLine($"G: {G}\nB: {B}\nW: {W}");
 
-			//if (hero is Mage) {
-			//	Console.WriteLine("He is a mage!!! run!!!");
-			//}
-			//if (hero is Warrior)
-			//{
-			//	Console.WriteLine("He is a Warrior!!! We cant defeat him!!!");
-			//}
-			//if (hero is Ranger)
-			//{
-			//	Console.WriteLine("He is a Ranger!!! Hide behind a wall!!!");
-			//}
-
-
 		}
 
-
-		public static int GenerateMoster()
+		public static int HelpGenerateMoster()
 		{
 			Random rand = new Random();
 
@@ -75,9 +71,47 @@ namespace DungeonCrawler.Domain.Services
 				{
 					continue;
 				}
-
-
 			}
 		}
+
+		public static void GenerateMoster()
+		{
+			Random rand = new Random();
+
+
+			while (true)
+			{
+				var chance = rand.NextDouble();
+
+				if (0 < chance && chance <= GameData.witchSpawningChance)
+				{
+					GameData.EnemyList.Add(new Witch());
+
+				}
+				else if (GameData.witchSpawningChance < chance && chance <= GameData.bruteSpawningChance)
+				{
+					GameData.EnemyList.Add(new Brute());
+				}
+				else if (GameData.bruteSpawningChance < chance && chance > GameData.goblinSpawningChance)
+				{
+					GameData.EnemyList.Add(new Goblin());
+				}
+				else
+				{
+					continue;
+				}
+
+				return;
+			}
+		}
+
+
+
+
+
+
+
+
+
 	}
 }
