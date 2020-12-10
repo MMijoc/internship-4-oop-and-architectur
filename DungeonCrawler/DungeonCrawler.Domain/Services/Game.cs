@@ -12,16 +12,25 @@ namespace DungeonCrawler.Domain.Services
 		{
 			//var hero = Select.SelectHeroClass();
 			//postavit izbor za rucno postavaljanje HP, XP-a i Levela
-			int G = 0;
-			int B = 0;
-			int W = 0;
-
+			//generate monsters
 			for (int i = 0; i < GameData.numberOfEnemies; i++)
 			{
 				GenerateMoster();
 			}
 
 
+			MiniGame.NewMiniGame();
+			if (MiniGame.PlayerWonRound())
+				Console.WriteLine("Hurray I have won");
+
+
+		}
+
+		public static void HelpGenerateMoster()
+		{
+			int G = 0;
+			int B = 0;
+			int W = 0;
 			foreach (var mosnter in GameData.EnemyList)
 			{
 				if (mosnter is Witch)
@@ -42,36 +51,6 @@ namespace DungeonCrawler.Domain.Services
 				Console.WriteLine($"HP: {mosnter.Health} EXP: {mosnter.Experience} DMG: {mosnter.Damage}");
 			}
 			Console.WriteLine($"G: {G}\nB: {B}\nW: {W}");
-
-		}
-
-		public static int HelpGenerateMoster()
-		{
-			Random rand = new Random();
-
-			while (true)
-			{
-				var chance = rand.NextDouble();
-				if (0 < chance && chance <= GameData.witchSpawningChance)
-				{
-					Console.WriteLine("Witch");
-					return 3;
-				}
-				else if (GameData.witchSpawningChance < chance && chance <= GameData.bruteSpawningChance)
-				{
-					Console.WriteLine("Brute");
-					return 2;
-				}
-				else if (GameData.bruteSpawningChance < chance && chance > GameData.goblinSpawningChance)
-				{
-					Console.WriteLine("Goblin");
-					return 1;
-				}
-				else
-				{
-					continue;
-				}
-			}
 		}
 
 		public static void GenerateMoster()
@@ -104,10 +83,6 @@ namespace DungeonCrawler.Domain.Services
 				return;
 			}
 		}
-
-
-
-
 
 
 

@@ -10,7 +10,7 @@ namespace DungeonCrawler.Domain.Helpers
 		{
 			while (true)
 			{
-				if (message != "")
+				if (!string.IsNullOrEmpty(message))
 					Console.Write(message);
 				bool isNumber = int.TryParse(Console.ReadLine(), out int number);
 

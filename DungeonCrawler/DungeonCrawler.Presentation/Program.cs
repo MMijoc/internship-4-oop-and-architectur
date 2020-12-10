@@ -23,8 +23,7 @@ namespace DungeonCrawler.Presentation
 					case (int)MainMenuOptions.NewGame:
 						Console.Clear();
 						Game.NewGame();
-						//return;
-						break;
+						return;
 					case (int)MainMenuOptions.Help:
 						break;
 					case (int)MainMenuOptions.ExitGame:

@@ -34,7 +34,9 @@ namespace DungeonCrawler.Domain.Helpers
             var options = Enum.GetValues(MenuOptions.GetType());
             foreach (var value in options)
             {
-                Console.WriteLine($"{((int)value).ToString()} - {EnumUtility.GetDescription((Enum)value)}");
+                var description = EnumUtility.GetDescription((Enum)value);
+                if (!string.IsNullOrEmpty(description))
+                    Console.WriteLine($"{((int)value).ToString()} - {EnumUtility.GetDescription((Enum)value)}");
             }
         }
 

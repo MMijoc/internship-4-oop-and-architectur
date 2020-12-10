@@ -42,7 +42,6 @@ namespace DungeonCrawler.Data
 		public static int bruteDamageModifer = (int)(bruteDefaultDamage * 0.25);
 		public static int witchDamageModifer = (int)(witchDefaultDamage * 0.25);
 
-		//public static int monsterDamageModifer = 0.1;
 
 
 
