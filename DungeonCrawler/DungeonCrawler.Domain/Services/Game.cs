@@ -6,22 +6,28 @@ using System.Text;
 
 namespace DungeonCrawler.Domain.Services
 {
-	public static class Game
+	public class Game
 	{
+		public static List<Monster> EnemyList { get; set; } = new List<Monster>();
+
 		public static void NewGame()
 		{
-			//var hero = Select.SelectHeroClass();
-			//postavit izbor za rucno postavaljanje HP, XP-a i Levela
-			//generate monsters
+			
+			var hero = Select.SelectHeroClass();
+			Console.Clear();
+			Select.SetHeroStasts((Hero)hero);
+			Console.WriteLine($"Health points: {hero.Health}\nDamage: {hero.Damage}\nExperience: {hero.Experience}\nLevel: {hero.Level}");
+
 			for (int i = 0; i < GameData.numberOfEnemies; i++)
-			{
 				GenerateMoster();
-			}
 
 
-			MiniGame.NewMiniGame();
-			if (MiniGame.PlayerWonRound())
-				Console.WriteLine("Hurray I have won");
+			//HelpGenerateMoster();
+
+
+			//MiniGame.NewMiniGame();
+			//if (MiniGame.PlayerWonRound())
+			//	Console.WriteLine("Hurray I have won");
 
 
 		}
@@ -31,7 +37,7 @@ namespace DungeonCrawler.Domain.Services
 			int G = 0;
 			int B = 0;
 			int W = 0;
-			foreach (var mosnter in GameData.EnemyList)
+			foreach (var mosnter in EnemyList)
 			{
 				if (mosnter is Witch)
 				{
@@ -64,16 +70,16 @@ namespace DungeonCrawler.Domain.Services
 
 				if (0 < chance && chance <= GameData.witchSpawningChance)
 				{
-					GameData.EnemyList.Add(new Witch());
+					EnemyList.Add(new Witch());
 
 				}
 				else if (GameData.witchSpawningChance < chance && chance <= GameData.bruteSpawningChance)
 				{
-					GameData.EnemyList.Add(new Brute());
+					EnemyList.Add(new Brute());
 				}
 				else if (GameData.bruteSpawningChance < chance && chance > GameData.goblinSpawningChance)
 				{
-					GameData.EnemyList.Add(new Goblin());
+					EnemyList.Add(new Goblin());
 				}
 				else
 				{

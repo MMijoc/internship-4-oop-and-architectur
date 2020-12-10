@@ -6,12 +6,10 @@ namespace DungeonCrawler.Data.Models
 {
 	public class Hero : Entity
 	{
-		//public Hero(string name)
-		//{
-		//	Name = name;
-		//	Level = 0;
-		//}
-		
+		public Hero()
+		{
+			Level = 1;
+		}
 		public string Name { get; set; }
 		public int Level { get; set; }
 

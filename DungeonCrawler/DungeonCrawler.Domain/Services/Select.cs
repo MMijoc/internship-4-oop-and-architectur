@@ -10,10 +10,8 @@ namespace DungeonCrawler.Domain.Services
 {
 	public static class Select
 	{
-	
-		public static Entity SelectHeroClass()
+		public static Hero SelectHeroClass()
 		{
-
 			var hero = new Hero();
 			while (true)
 			{
@@ -44,6 +42,21 @@ namespace DungeonCrawler.Domain.Services
 			}
 
 
+		}
+
+		public static void SetHeroStasts(Hero hero)
+		{
+			Console.WriteLine($"Health points: {hero.Health}\nDamage: {hero.Damage}\nExperience: {hero.Experience}\nLevel: {hero.Level}");
+			if (InputUtility.ConfirmAction("Do you want change your default stats?"))
+			{
+				hero.Health = InputUtility.InputNumber("Enter your hero's health points: ");
+				hero.Damage = InputUtility.InputNumber("Enter your hero's damage: ");
+				hero.Experience = InputUtility.InputNumber("Enter your hero's experience points: ");
+				hero.Level = InputUtility.InputNumber("Enter your hero's level: ");
+				return;
+			}
+
+			return;
 		}
 	
 	}

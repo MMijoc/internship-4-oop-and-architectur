@@ -7,7 +7,19 @@ namespace DungeonCrawler.Data
 {
 	public static class GameData
 	{
-		public static List<Monster> EnemyList { get; set; } = new List<Monster>();
+		//public static List<Monster> EnemyList { get; set; } = new List<Monster>();
+
+		public static int warriorDefaultHealth = 500;
+		public static int mageDefaultHealth = 200;
+		public static int rangerDefaultHealth = 300;
+
+		public static int warriorDefaultDamage = 50;
+		public static int mageDefaultDamage = 150;
+		public static int rangerDefaultDamage = 100;
+
+		//public static int warriorDefaultExperience = 250;
+		//public static int mageDefaultExperience = 500;
+		//public static int rangerDefaultExperience = 1000;
 
 		public static int numberOfEnemies = 10;
 		public static int defaultHealth = 500;
@@ -16,7 +28,6 @@ namespace DungeonCrawler.Data
 		public static double goblinSpawningChance = 0.5;
 		public static double bruteSpawningChance = 0.25;
 		public static double witchSpawningChance = 0.125;
-
 
 		public static int goblinDefaultHealth = 100;
 		public static int bruteDefaultHealth = 500;

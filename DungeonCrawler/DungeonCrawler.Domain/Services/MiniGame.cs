@@ -12,7 +12,6 @@ namespace DungeonCrawler.Domain.Services
 		static bool _playerWonRound;
 		static bool _isADraw;
 
-
 		public static void NewMiniGame()
 		{
 			while (true)

@@ -6,8 +6,14 @@ namespace DungeonCrawler.Data.Models
 {
 	public class Mage : Hero
 	{
+		public Mage()
+		{
+			Health = GameData.mageDefaultHealth;
+			Damage = GameData.mageDefaultHealth;
+			//Experience = GameData.witchDefaultExperience;
+		}
 		public int Mana { get; set; }
-		bool AvoidedDeath = false;
+
 		public void Heal() 
 		{
 			if (Mana < 10) //HealManaCost
