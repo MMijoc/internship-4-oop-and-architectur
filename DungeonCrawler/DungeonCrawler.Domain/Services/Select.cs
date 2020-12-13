@@ -50,9 +50,16 @@ namespace DungeonCrawler.Domain.Services
 			if (InputUtility.ConfirmAction("Do you want change your default stats?"))
 			{
 				hero.Health = InputUtility.InputNumber("Enter your hero's health points: ");
+				hero.MaxHealth = hero.Health;
 				hero.Damage = InputUtility.InputNumber("Enter your hero's damage: ");
 				hero.Experience = InputUtility.InputNumber("Enter your hero's experience points: ");
 				hero.Level = InputUtility.InputNumber("Enter your hero's level: ");
+
+				if (hero is Mage mage)
+				{
+					mage.Mana = InputUtility.InputNumber("Enter your hero's mana points: ");
+					mage.MaxMana = mage.Mana;
+				}
 				return;
 			}
 

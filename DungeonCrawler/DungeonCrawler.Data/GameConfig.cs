@@ -1,31 +1,13 @@
-﻿using DungeonCrawler.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DungeonCrawler.Data
+﻿namespace DungeonCrawler.Data
 {
 	public static class GameConfig
 	{
-		//public static List<Monster> EnemyList { get; set; } = new List<Monster>();
-
-		public static int numberOfEnemies = 10;
-		public static int defaultHealth = 500;
+		// General
+		public static int numberOfEnemies = 2;
+		public static int defaultHealth = 400;
 		public static int defaultExperienceToLevelUp = 1000;
-		//public static int defaultDamage = 100;
-
-
-
-
-
-
-
 		public static string heroDefaultName = "Adventurer";
-
 		public static int heroDefaultLevel = 1;
-
-
-
 
 		// Default spawning chances
 		public static double goblinSpawningChance = 0.5;
@@ -36,16 +18,16 @@ namespace DungeonCrawler.Data
 		// Default health, damage and experience values
 		public static int warriorDefaultHealth = 500;
 		public static int mageDefaultHealth = 200;
-		public static int rangerDefaultHealth = 30000;
+		public static int rangerDefaultHealth = 300;
 		public static int goblinDefaultHealth = 100;
 		public static int bruteDefaultHealth = 500;
-		public static int witchDefaultHealth = 200;
+		public static int witchDefaultHealth = 250;
 
-		public static int warriorDefaultDamage = 50;
+		public static int warriorDefaultDamage = 75;
 		public static int mageDefaultDamage = 150;
 		public static int rangerDefaultDamage = 100;
 		public static int goblinDefaultDamage = 50;
-		public static int bruteDefaultDamage = 150;
+		public static int bruteDefaultDamage = 125;
 		public static int witchDefaultDamage = 100;
 
 		public static int heroDefaultExperience = 0;
@@ -64,11 +46,8 @@ namespace DungeonCrawler.Data
 
 		public static int rangerLevelUpHealthIncrease = 50;
 		public static int rangerLevelUpDamageIncrease = 50;
-		public static double rangerLevelUpCriticalChanceIncrease = 0.05;
-		public static double rangerLevelUpStunChanceIncrease = 0.05;
-
-
-
+		public static double rangerLevelUpCriticalChanceIncrease = 0.09;
+		public static double rangerLevelUpStunChanceIncrease = 0.1;
 
 
 		// Default health, damage and experience modifiers
@@ -102,10 +81,5 @@ namespace DungeonCrawler.Data
 		public static double bruteRavageChance = 0.33;
 
 		public static double witchMayhemChance = 0.15;
-
-
-
-
-
 	}
 }

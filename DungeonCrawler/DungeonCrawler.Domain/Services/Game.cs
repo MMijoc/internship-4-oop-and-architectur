@@ -19,12 +19,12 @@ namespace DungeonCrawler.Domain.Services
 		public void NewGame()
 		{
 
-			PlayerHero = new Ranger();
-			//PlayerHero = Select.SelectHeroClass();
-		//	Console.Clear();
-		//	Select.SetHeroStasts(PlayerHero);
-		//	Console.WriteLine(PlayerHero);
-		//	Thread.Sleep(2500);
+			//PlayerHero = new Ranger();
+			PlayerHero = Select.SelectHeroClass();
+			Console.Clear();
+			Select.SetHeroStasts(PlayerHero);
+			Console.WriteLine(PlayerHero);
+			Thread.Sleep(2500);
 			Console.Clear();
 
 			for (int i = 0; i < GameConfig.numberOfEnemies; i++)
@@ -55,7 +55,7 @@ namespace DungeonCrawler.Domain.Services
 					ShowHud();
 					if (MiniGame.PlayerWonRound)
 					{
-						UseHeroAbility();
+						 UseHeroAbility();
 					}
 					else
 					{
@@ -72,7 +72,7 @@ namespace DungeonCrawler.Domain.Services
 
 
 				}
-				//Thread.Sleep(1000);
+
 
 
 				if (CheckGame() == (int)GameState.Lose)
@@ -144,7 +144,7 @@ namespace DungeonCrawler.Domain.Services
 			}
 		}
 
-		public int UseHeroAbility()
+		public void UseHeroAbility()
 		{
 
 			if (PlayerHero is Warrior warrior)
@@ -154,7 +154,7 @@ namespace DungeonCrawler.Domain.Services
 				switch (action)
 				{
 					case (int)WarriroAbilities.RegularAttack:
-						warrior.Attack(EnemyMonster);
+						 warrior.Attack(EnemyMonster);
 						break;
 					case (int)WarriroAbilities.RageAttack:
 						warrior.RageAttack(EnemyMonster);
@@ -162,59 +162,41 @@ namespace DungeonCrawler.Domain.Services
 					default:
 						break;
 				}
+				Thread.Sleep(2000);
 
 			}
 			else if (PlayerHero is Mage mage)
 			{
 				EnumUtility.PrintMenu(new MageAbilities());
-				int action = InputUtility.InputNumber("Choose action: ");
-				switch (action)
+				bool canUseAbility = false;
+
+				while (!canUseAbility)
 				{
-					case (int)MageAbilities.RegularAttack:
-						mage.Attack(EnemyMonster);
-						break;
-					case (int)MageAbilities.HealSpell:
-						mage.HealSpell();
-						break;
-					case (int)MageAbilities.RegenerateMana:
-						mage.RegenerateMana();
-						break;
-					default:
-						break;
+					int action = InputUtility.InputNumber("Choose action: ");
+					switch (action)
+					{
+						case (int)MageAbilities.RegularAttack:
+							canUseAbility = mage.Attack(EnemyMonster);
+							break;
+						case (int)MageAbilities.HealSpell:
+							canUseAbility = mage.HealSpell();
+							break;
+						case (int)MageAbilities.RegenerateMana:
+							canUseAbility = mage.RegenerateMana();
+							break;
+						default:
+							break;
+					} 
 				}
+
+				Thread.Sleep(2000);
 			}
 			else if (PlayerHero is Ranger ranger)
 			{
 				ranger.RangerAttack(EnemyMonster);
 			}
-			else
-			{
-				return -1;
-			}
 
-
-
-
-
-
-
-
-
-			//switch (heroClassCode)
-			//{
-			//	case (int)HeroClassOptions.Warrior:
-			//		var warrior = PlayerHero as Warrior;
-			//		warrior.Attack(EnemyMonster);
-			//		break;
-			//	case (int)HeroClassOptions.Mage:
-			//		break;
-			//	case (int)HeroClassOptions.Ranger:
-			//		break;
-			//	default:
-			//		return -1;
-			//}
-
-			return 1;
+			return;
 		}
 
 		public int UseEnemyAbility()
@@ -276,6 +258,22 @@ namespace DungeonCrawler.Domain.Services
 				}
 				Console.WriteLine($"You have defeated a {EnemyMonster.MonsterType} and gained {EnemyMonster.Experience} experience points");
 				PlayerHero.Experience += EnemyMonster.Experience;
+
+				PlayerHero.Health += (int)(0.25 * PlayerHero.MaxHealth);
+				if (PlayerHero.Health > PlayerHero.MaxHealth)
+				{
+					PlayerHero.Health = PlayerHero.MaxHealth;
+				}
+				else
+				{
+
+					if (InputUtility.ConfirmAction($"Do you want to spend half of your current experience ({PlayerHero.Experience/2}) to fully restore your health?"))
+					{
+						PlayerHero.Experience = PlayerHero.Experience / 2;
+						PlayerHero.Health = PlayerHero.MaxHealth;
+					}
+				}
+
 			}
 
 			if (PlayerHero.Experience >= GameConfig.defaultExperienceToLevelUp)
@@ -311,7 +309,7 @@ namespace DungeonCrawler.Domain.Services
 			Console.ForegroundColor = ConsoleColor.Blue;
 			Console.Write("\t{0, -67}", $"Health: {PlayerHero.Health}/{PlayerHero.MaxHealth}");
 			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine($"Health: {EnemyMonster.Health}/{EnemyMonster.Health}");
+			Console.WriteLine($"Health: {EnemyMonster.Health}/{EnemyMonster.MaxHealth}");
 
 			Console.ForegroundColor = ConsoleColor.Blue;
 			Console.Write("\t{0,-67}", $"Damage: { PlayerHero.Damage}");

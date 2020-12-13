@@ -9,6 +9,7 @@ namespace DungeonCrawler.Data.Models
 		{
 			var rnd = new Random();
 			Health = GameConfig.witchDefaultHealth + rnd.Next(-GameConfig.witchHealthModifier, GameConfig.witchHealthModifier);
+			MaxHealth = Health;
 			Damage = GameConfig.witchDefaultDamage + rnd.Next(-GameConfig.witchDamageModifier, GameConfig.witchDamageModifier);
 			Experience = GameConfig.witchDefaultExperience + rnd.Next(-GameConfig.witchExperienceModifier, GameConfig.witchExperienceModifier);
 			

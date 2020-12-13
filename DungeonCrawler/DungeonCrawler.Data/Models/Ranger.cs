@@ -18,7 +18,7 @@ namespace DungeonCrawler.Data.Models
 		public double StunChance  { get; set; }
 		public object Game { get; private set; }
 
-		public void RangerAttack(Monster monster)
+		public bool RangerAttack(Monster monster)
 		{
 			var rand = new Random();
 			var chance = rand.NextDouble();
@@ -42,7 +42,7 @@ namespace DungeonCrawler.Data.Models
 				monster.IsStuned = true;
 			}
 
-			return;
+			return true;
 		}
 
 		public void LevelUp()
@@ -52,6 +52,7 @@ namespace DungeonCrawler.Data.Models
 				Console.WriteLine("You have gained a new level");
 				Experience -= GameConfig.defaultExperienceToLevelUp;
 				MaxHealth += GameConfig.rangerLevelUpHealthIncrease;
+				Health = MaxHealth;
 				Damage += GameConfig.rangerLevelUpDamageIncrease;
 				StunChance += GameConfig.rangerLevelUpStunChanceIncrease;
 				CriticalChance += GameConfig.rangerLevelUpCriticalChanceIncrease;

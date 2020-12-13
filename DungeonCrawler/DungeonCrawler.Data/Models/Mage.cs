@@ -42,17 +42,29 @@ namespace DungeonCrawler.Data.Models
 				return false;
 			}
 
+			if (Health >= MaxHealth)
+			{
+				Console.WriteLine("Health already at maximum!");
+				return false;
+			}
+
 			Console.WriteLine($"Hell spell restores {GameConfig.mageHealMagnitude} health points");
 			Health += GameConfig.mageHealMagnitude;
 			Mana -= GameConfig.mageHealManaCost;
 			return true;
 		}
 
-		public void RegenerateMana()
+		public bool RegenerateMana()
 		{
-			Console.WriteLine($"Mana full restored to {GameConfig.mageDefaultMana} points");
-			Health += GameConfig.mageHealMagnitude;
-			return;
+			if (Mana >= MaxMana)
+			{
+				Console.WriteLine("Mana is already at maximum value");
+				return false;
+			}
+
+			Console.WriteLine($"Mana full restored!");
+			Mana = MaxMana;
+			return true; ;
 		}
 
 		public bool AvoidDeath()
@@ -73,8 +85,10 @@ namespace DungeonCrawler.Data.Models
 				Console.WriteLine("You have gained a new level");
 				Experience -= GameConfig.defaultExperienceToLevelUp;
 				MaxHealth += GameConfig.mageLevelUpHealthIncrease;
+				Health = MaxHealth;
 				Damage += GameConfig.mageLevelUpDamageIncrease;
 				MaxMana += GameConfig.mageLevelUpManaIncrease;
+				Mana = MaxMana;
 
 				return;
 			}

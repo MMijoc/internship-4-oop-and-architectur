@@ -12,16 +12,25 @@ namespace DungeonCrawler.Data.Models
 			Experience = GameConfig.heroDefaultExperience;
 		}
 
-		public void Attack(Monster monster)
+		public bool Attack(Monster monster)
 		{
 			monster.Health -= Damage;
+			return true;
 		}
 
-		public void RageAttack(Monster monster)
+		public bool RageAttack(Monster monster)
 		{
-			int abilityHealthCost = (int)(GameConfig.warriorRageHealthCostModifier * Health);
+			int abilityHealthCost = (int)(GameConfig.warriorRageHealthCostModifier * MaxHealth);
+			if (Health - abilityHealthCost <= 0)
+			{
+				Console.WriteLine("Using Rage attack at this time would kill you!");
+				return false;
+
+			}
+			Console.WriteLine($"{Name} loses {abilityHealthCost} points of health and deals {(int)(Damage * GameConfig.warriroRageDamageModifier)} points of damage to the enemy");
 			Health -= abilityHealthCost;
 			monster.Health -= (int)(Damage * GameConfig.warriroRageDamageModifier);
+			return true;
 		}
 
 		public void LevelUp()
@@ -31,6 +40,7 @@ namespace DungeonCrawler.Data.Models
 				Console.WriteLine("You have gained a new level");
 				Experience -= GameConfig.defaultExperienceToLevelUp;
 				MaxHealth += GameConfig.warriorLevelUpHealthIncrease;
+				Health = MaxHealth;
 				Damage += GameConfig.warriorLevelUpDamageIncrease;
 				return;
 			}
