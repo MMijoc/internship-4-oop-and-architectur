@@ -14,10 +14,9 @@ namespace DungeonCrawler.Data.Models
 			MaxMana = GameConfig.mageDefaultMana; ;
 			HasAvoidedDeath = false;
 		}
+
 		public int Mana { get; set; }
-
 		public int MaxMana { get; set; }
-
 		public bool HasAvoidedDeath { get; set; }
 
 		public bool Attack(Monster monster)
@@ -30,6 +29,7 @@ namespace DungeonCrawler.Data.Models
 
 			monster.Health -= Damage;
 			Mana -= GameConfig.mageAttackManaCost;
+			Console.WriteLine($"{Name} has used {GameConfig.mageAttackManaCost} mana and deals {Damage} points of damage");
 
 			return true;
 		}
@@ -50,6 +50,8 @@ namespace DungeonCrawler.Data.Models
 
 			Console.WriteLine($"Hell spell restores {GameConfig.mageHealMagnitude} health points");
 			Health += GameConfig.mageHealMagnitude;
+			if (Health > MaxHealth)
+				Health = MaxHealth;
 			Mana -= GameConfig.mageHealManaCost;
 			return true;
 		}
@@ -72,6 +74,7 @@ namespace DungeonCrawler.Data.Models
 			if (HasAvoidedDeath) 
 				return false;
 
+			Console.WriteLine($"{Name} uses Avoid Death ability. All health and mana restored.");
 			Mana = MaxMana;
 			Health = MaxHealth;
 			HasAvoidedDeath = true;
@@ -80,7 +83,8 @@ namespace DungeonCrawler.Data.Models
 
 		public void LevelUp()
 		{
-			if (Experience >= GameConfig.defaultExperienceToLevelUp)
+			
+			while (Experience >= GameConfig.defaultExperienceToLevelUp)
 			{
 				Console.WriteLine("You have gained a new level");
 				Experience -= GameConfig.defaultExperienceToLevelUp;
@@ -89,13 +93,10 @@ namespace DungeonCrawler.Data.Models
 				Damage += GameConfig.mageLevelUpDamageIncrease;
 				MaxMana += GameConfig.mageLevelUpManaIncrease;
 				Mana = MaxMana;
+			}
 
-				return;
-			}
-			else
-			{
-				return;
-			}
+			return;
+
 
 
 		}

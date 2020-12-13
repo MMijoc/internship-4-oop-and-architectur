@@ -1,9 +1,7 @@
-﻿using DungeonCrawler.Data.Enums;
-using DungeonCrawler.Domain.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading;
+using DungeonCrawler.Data.Enums;
+using DungeonCrawler.Domain.Helpers;
 
 namespace DungeonCrawler.Domain.Services
 {

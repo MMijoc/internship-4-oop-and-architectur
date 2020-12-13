@@ -26,12 +26,13 @@ namespace DungeonCrawler.Data.Models
 			if (0 < chance && chance <= CriticalChance)
 			{
 				Console.WriteLine("Critical hit!");
+				Console.WriteLine($"{Name} deals {Damage * GameConfig.rangerCriticalHitModifier} points of damage");
 				monster.Health -= (int)(Damage * GameConfig.rangerCriticalHitModifier);
 
 			}
 			else
 			{
-				Console.WriteLine($"Regular attack deals {Damage} points of damage!");
+				Console.WriteLine($"{Name} deals {Damage} points of damage");
 				monster.Health -= Damage;
 			}
 
@@ -47,7 +48,7 @@ namespace DungeonCrawler.Data.Models
 
 		public void LevelUp()
 		{
-			if (Experience >= GameConfig.defaultExperienceToLevelUp)
+			while (Experience >= GameConfig.defaultExperienceToLevelUp)
 			{
 				Console.WriteLine("You have gained a new level");
 				Experience -= GameConfig.defaultExperienceToLevelUp;
@@ -58,10 +59,8 @@ namespace DungeonCrawler.Data.Models
 				CriticalChance += GameConfig.rangerLevelUpCriticalChanceIncrease;
 				return;
 			}
-			else
-			{
-				return;
-			}
+
+			return;
 		}
 	}
 }

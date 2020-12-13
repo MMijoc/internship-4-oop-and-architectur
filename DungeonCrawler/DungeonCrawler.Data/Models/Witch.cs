@@ -19,6 +19,7 @@ namespace DungeonCrawler.Data.Models
 		public void Attack(Hero hero)
 		{
 			hero.Health -= Damage;
+			Console.WriteLine($"{MonsterType} deals {Damage} points of damage!");
 		}
 
 		public void Mayhem(Hero hero, List<Monster> enemyList)

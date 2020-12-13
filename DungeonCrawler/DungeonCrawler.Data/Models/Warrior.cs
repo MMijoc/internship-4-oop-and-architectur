@@ -15,6 +15,7 @@ namespace DungeonCrawler.Data.Models
 		public bool Attack(Monster monster)
 		{
 			monster.Health -= Damage;
+			Console.WriteLine($"{Name} deals {Damage} points of damage");
 			return true;
 		}
 
@@ -35,22 +36,16 @@ namespace DungeonCrawler.Data.Models
 
 		public void LevelUp()
 		{
-			if (Experience >= GameConfig.defaultExperienceToLevelUp)
+			while (Experience >= GameConfig.defaultExperienceToLevelUp)
 			{
 				Console.WriteLine("You have gained a new level");
 				Experience -= GameConfig.defaultExperienceToLevelUp;
 				MaxHealth += GameConfig.warriorLevelUpHealthIncrease;
 				Health = MaxHealth;
 				Damage += GameConfig.warriorLevelUpDamageIncrease;
-				return;
 			}
-			else
-			{
-				return;
-			}
-
-
+			
+			return;
 		}
-
 	}
 }

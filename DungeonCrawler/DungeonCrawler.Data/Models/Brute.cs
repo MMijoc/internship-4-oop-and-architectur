@@ -18,12 +18,15 @@ namespace DungeonCrawler.Data.Models
 		public void Attack(Hero hero)
 		{
 			hero.Health -= Damage;
+			Console.WriteLine($"{MonsterType} deals {Damage} points of damage!");
+
 		}
 
 		public void BruteAttack(Hero hero)
 		{
-			hero.Health -= (int)(GameConfig.bruteBruteAttackModifier * hero.Health);
-			Console.WriteLine($"Brute attack: {GameConfig.bruteBruteAttackModifier}% of hero's current health damaged");
+			int rageAttackDamage = (int)(GameConfig.bruteBruteAttackModifier * hero.MaxHealth);
+			hero.Health -= rageAttackDamage;
+			Console.WriteLine($"{MonsterType} attack with rage and deals {rageAttackDamage} points of damage ({string.Format("{0:n3}", GameConfig.bruteBruteAttackModifier)}% of hero's max health)");
 
 			return;
 		}

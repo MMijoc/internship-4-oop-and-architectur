@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DungeonCrawler.Data.Models
+﻿namespace DungeonCrawler.Data.Models
 {
 	public class Entity
 	{
@@ -13,6 +11,5 @@ namespace DungeonCrawler.Data.Models
 		public int Health { get; set; }
 		public int Damage { get; set; }
 		public int Experience { get; set; }
-
 	}
 }

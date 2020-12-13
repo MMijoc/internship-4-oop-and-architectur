@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DungeonCrawler.Domain.Helpers
 {
@@ -40,7 +38,6 @@ namespace DungeonCrawler.Domain.Helpers
 
 			return input;
 		}
-
 		public static bool ConfirmAction(string message)
 		{
 			if (!string.IsNullOrEmpty(message))

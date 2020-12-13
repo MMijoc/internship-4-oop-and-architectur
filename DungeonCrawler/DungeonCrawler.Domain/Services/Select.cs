@@ -1,10 +1,7 @@
-﻿using DungeonCrawler.Data.Enums;
+﻿using System;
+using DungeonCrawler.Data.Enums;
 using DungeonCrawler.Data.Models;
 using DungeonCrawler.Domain.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace DungeonCrawler.Domain.Services
 {
@@ -12,7 +9,7 @@ namespace DungeonCrawler.Domain.Services
 	{
 		public static Hero SelectHeroClass()
 		{
-			var hero = new Hero();
+			Hero hero;
 			while (true)
 			{
 				Console.Clear();
@@ -53,7 +50,6 @@ namespace DungeonCrawler.Domain.Services
 				hero.MaxHealth = hero.Health;
 				hero.Damage = InputUtility.InputNumber("Enter your hero's damage: ");
 				hero.Experience = InputUtility.InputNumber("Enter your hero's experience points: ");
-				hero.Level = InputUtility.InputNumber("Enter your hero's level: ");
 
 				if (hero is Mage mage)
 				{
@@ -65,8 +61,5 @@ namespace DungeonCrawler.Domain.Services
 
 			return;
 		}
-	
-
-
 	}
 }

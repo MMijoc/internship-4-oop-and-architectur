@@ -3,7 +3,7 @@
 	public static class GameConfig
 	{
 		// General
-		public static int numberOfEnemies = 2;
+		public static int numberOfEnemies = 10;
 		public static int defaultHealth = 400;
 		public static int defaultExperienceToLevelUp = 1000;
 		public static string heroDefaultName = "Adventurer";

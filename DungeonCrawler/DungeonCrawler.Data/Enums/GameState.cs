@@ -1,5 +1,4 @@
-﻿
-namespace DungeonCrawler.Data.Enums
+﻿namespace DungeonCrawler.Data.Enums
 {
 	public enum GameState
 	{

@@ -1,9 +1,7 @@
 ﻿using System;
 using DungeonCrawler.Data.Enums;
-using DungeonCrawler.Data.Models;
 using DungeonCrawler.Domain.Helpers;
 using DungeonCrawler.Domain.Services;
-
 
 namespace DungeonCrawler.Presentation
 {
@@ -15,7 +13,6 @@ namespace DungeonCrawler.Presentation
 			{
 				EnumUtility.PrintMenu(new MainMenuOptions());
 				var select = InputUtility.InputNumber("Select: ");
-				var hero = new Entity();
 
 				switch (select)
 				{
@@ -25,6 +22,10 @@ namespace DungeonCrawler.Presentation
 						newGame.NewGame();
 						break;
 					case (int)MainMenuOptions.Help:
+						HelpMenu.PrintMenu();
+						Console.WriteLine("Pres any key to continue . . .");
+						Console.ReadKey();
+						Console.Clear();
 						break;
 					case (int)MainMenuOptions.ExitGame:
 						return;
@@ -33,11 +34,7 @@ namespace DungeonCrawler.Presentation
 						break;
 				}
 			}
+
 		}
-
-
-
-
-
 	}
 }

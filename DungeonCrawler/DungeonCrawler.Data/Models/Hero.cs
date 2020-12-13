@@ -1,5 +1,4 @@
-﻿
-namespace DungeonCrawler.Data.Models
+﻿namespace DungeonCrawler.Data.Models
 {
 	public class Hero : Entity
 	{
@@ -8,6 +7,7 @@ namespace DungeonCrawler.Data.Models
 			Name = GameConfig.heroDefaultName;
 			Level = GameConfig.heroDefaultLevel;
 		}
+
 		public string Name { get; set; }
 		public int Level { get; set; }
 

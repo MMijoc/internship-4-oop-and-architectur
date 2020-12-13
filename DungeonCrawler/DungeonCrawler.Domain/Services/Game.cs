@@ -12,24 +12,22 @@ namespace DungeonCrawler.Domain.Services
 	{
 		public static List<Monster> EnemyList { get; set; } = new List<Monster>();
 		public static bool EnemyIsStuned { get; set; }
-
 		public static Hero PlayerHero { get; set; }
-
 		public static Monster EnemyMonster { get; set; }
+
 		public void NewGame()
 		{
 
-			//PlayerHero = new Ranger();
 			PlayerHero = Select.SelectHeroClass();
 			Console.Clear();
 			Select.SetHeroStasts(PlayerHero);
 			Console.WriteLine(PlayerHero);
-			Thread.Sleep(2500);
+			Thread.Sleep(1500);
+			LevelUpHero();
 			Console.Clear();
 
 			for (int i = 0; i < GameConfig.numberOfEnemies; i++)
 				GenerateMoster();
-		//	HelpGenerateMoster();
 
 			for (var i = 0; i < EnemyList.Count; i++)
 			{
@@ -37,12 +35,13 @@ namespace DungeonCrawler.Domain.Services
 
 				EnemyMonster = enemy;
 				Console.WriteLine($"\t\t\t\tAn enemy {EnemyMonster.MonsterType} approaches");
-				ShowHud();
 				while (PlayerHero.Health > 0 && enemy.Health > 0)
 				{
 
 					if (!EnemyMonster.IsStuned)
 					{
+
+						ShowHud();
 						MiniGame.NewMiniGame();
 						Console.Clear();
 					}
@@ -51,7 +50,7 @@ namespace DungeonCrawler.Domain.Services
 						MiniGame.PlayerWonRound = true;
 						EnemyMonster.IsStuned = false;
 					}
-					Console.Clear();
+
 					ShowHud();
 					if (MiniGame.PlayerWonRound)
 					{
@@ -67,50 +66,18 @@ namespace DungeonCrawler.Domain.Services
 						if (!mage.AvoidDeath())
 							break;
 					}
+					Thread.Sleep(2000);
 					Console.Clear();
-					ShowHud();
 
 
 				}
 
-
-
 				if (CheckGame() == (int)GameState.Lose)
 					return;
-
 			}
 
 			Console.WriteLine($"You have killed in total {EnemyList.Count} monsters\nYou have defeated all enemies! Congratulations!!!");
 			EnemyList.Clear();
-
-
-		}
-
-		public static void HelpGenerateMoster()
-		{
-			int G = 0;
-			int B = 0;
-			int W = 0;
-			foreach (var mosnter in EnemyList)
-			{
-				if (mosnter is Witch)
-				{
-					Console.Write("Witch: ");
-					W++;
-				}
-				if (mosnter is Brute)
-				{
-					Console.Write("Brute: ");
-					B++;
-				}
-				if (mosnter is Goblin)
-				{
-					Console.Write("Goblin: ");
-					G++;
-				}
-				Console.WriteLine($"HP: {mosnter.Health} EXP: {mosnter.Experience} DMG: {mosnter.Damage}");
-			}
-			Console.WriteLine($"G: {G}\nB: {B}\nW: {W}");
 		}
 
 		public static void GenerateMoster()
@@ -150,19 +117,25 @@ namespace DungeonCrawler.Domain.Services
 			if (PlayerHero is Warrior warrior)
 			{
 				EnumUtility.PrintMenu(new WarriroAbilities());
-				int action = InputUtility.InputNumber("Choose action: ");
-				switch (action)
+				bool canUseAbility = false;
+
+
+				while (!canUseAbility)
 				{
-					case (int)WarriroAbilities.RegularAttack:
-						 warrior.Attack(EnemyMonster);
-						break;
-					case (int)WarriroAbilities.RageAttack:
-						warrior.RageAttack(EnemyMonster);
-						break;
-					default:
-						break;
+					int action = InputUtility.InputNumber("Choose action: ");
+					switch (action)
+					{
+						case (int)WarriroAbilities.RegularAttack:
+							canUseAbility =  warrior.Attack(EnemyMonster);
+							break;
+						case (int)WarriroAbilities.RageAttack:
+							canUseAbility = warrior.RageAttack(EnemyMonster);
+							break;
+						default:
+							break;
+					} 
 				}
-				Thread.Sleep(2000);
+
 
 			}
 			else if (PlayerHero is Mage mage)
@@ -189,7 +162,6 @@ namespace DungeonCrawler.Domain.Services
 					} 
 				}
 
-				Thread.Sleep(2000);
 			}
 			else if (PlayerHero is Ranger ranger)
 			{
@@ -240,42 +212,8 @@ namespace DungeonCrawler.Domain.Services
 			return 1;
 		}
 
-		public int CheckGame()
+		public void LevelUpHero()
 		{
-			if (PlayerHero.Health < 0)
-			{
-				Console.WriteLine($"You have been defeated by {EnemyMonster.MonsterType}\nGame over.");
-				EnemyList.Clear();
-				return (int)GameState.Lose;
-			}
-
-			if (EnemyMonster.Health < 0)
-			{
-				if (EnemyMonster is Witch)
-				{
-					GenerateMoster();
-					GenerateMoster();
-				}
-				Console.WriteLine($"You have defeated a {EnemyMonster.MonsterType} and gained {EnemyMonster.Experience} experience points");
-				PlayerHero.Experience += EnemyMonster.Experience;
-
-				PlayerHero.Health += (int)(0.25 * PlayerHero.MaxHealth);
-				if (PlayerHero.Health > PlayerHero.MaxHealth)
-				{
-					PlayerHero.Health = PlayerHero.MaxHealth;
-				}
-				else
-				{
-
-					if (InputUtility.ConfirmAction($"Do you want to spend half of your current experience ({PlayerHero.Experience/2}) to fully restore your health?"))
-					{
-						PlayerHero.Experience = PlayerHero.Experience / 2;
-						PlayerHero.Health = PlayerHero.MaxHealth;
-					}
-				}
-
-			}
-
 			if (PlayerHero.Experience >= GameConfig.defaultExperienceToLevelUp)
 			{
 				if (PlayerHero is Warrior warrior)
@@ -292,6 +230,48 @@ namespace DungeonCrawler.Domain.Services
 				{
 					ranger.LevelUp();
 				}
+			}
+
+			return;
+		}
+
+		public int CheckGame()
+		{
+			if (PlayerHero.Health < 0)
+			{
+				Console.WriteLine($"You have been defeated by {EnemyMonster.MonsterType}\nGame over.");
+				EnemyList.Clear();
+				return (int)GameState.Lose;
+			}
+
+			if (EnemyMonster.Health < 0)
+			{
+				if (EnemyMonster is Witch)
+				{
+					Console.WriteLine("With dying breath witch summons two more enemies");
+					GenerateMoster();
+					GenerateMoster();
+				}
+				Console.WriteLine($"You have defeated a {EnemyMonster.MonsterType} and gained {EnemyMonster.Experience} experience points");
+				PlayerHero.Experience += EnemyMonster.Experience;
+
+				LevelUpHero();
+
+				PlayerHero.Health += (int)(0.25 * PlayerHero.MaxHealth);
+				if (PlayerHero.Health > PlayerHero.MaxHealth)
+				{
+					PlayerHero.Health = PlayerHero.MaxHealth;
+				}
+				else
+				{
+
+					if (InputUtility.ConfirmAction($"Do you want to spend half of your current experience ({PlayerHero.Experience/2}) to fully restore your health?"))
+					{
+						PlayerHero.Experience = PlayerHero.Experience / 2;
+						PlayerHero.Health = PlayerHero.MaxHealth;
+					}
+				}
+
 			}
 
 			return (int)GameState.Play;
