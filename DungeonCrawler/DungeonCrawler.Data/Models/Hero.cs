@@ -11,5 +11,9 @@ namespace DungeonCrawler.Data.Models
 		public string Name { get; set; }
 		public int Level { get; set; }
 
+		public override string ToString()
+		{
+			return $"Hero name: {Name}\n\tHealth: {Health}/{MaxHealth}\n\tExperience: {Experience}\n\tLevel: {Level}";
+		}
 	}
 }

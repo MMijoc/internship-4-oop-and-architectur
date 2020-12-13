@@ -7,6 +7,7 @@ namespace DungeonCrawler.Data.Models
 		public Ranger()
 		{
 			Health = GameConfig.rangerDefaultHealth;
+			MaxHealth = GameConfig.rangerDefaultHealth;
 			Damage = GameConfig.rangerDefaultDamage;
 			Experience = GameConfig.heroDefaultExperience;
 			CriticalChance = GameConfig.rangerDefaultCriticalChance;
@@ -44,5 +45,22 @@ namespace DungeonCrawler.Data.Models
 			return;
 		}
 
+		public void LevelUp()
+		{
+			if (Experience >= GameConfig.defaultExperienceToLevelUp)
+			{
+				Console.WriteLine("You have gained a new level");
+				Experience -= GameConfig.defaultExperienceToLevelUp;
+				MaxHealth += GameConfig.rangerLevelUpHealthIncrease;
+				Damage += GameConfig.rangerLevelUpDamageIncrease;
+				StunChance += GameConfig.rangerLevelUpStunChanceIncrease;
+				CriticalChance += GameConfig.rangerLevelUpCriticalChanceIncrease;
+				return;
+			}
+			else
+			{
+				return;
+			}
+		}
 	}
 }

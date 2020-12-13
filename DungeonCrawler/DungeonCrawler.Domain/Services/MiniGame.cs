@@ -64,7 +64,7 @@ namespace DungeonCrawler.Domain.Services
 			while (true)
 			{
 				EnumUtility.PrintMenu(new RoundMiniGameOptions());
-				var input = InputUtility.InputNumber("Enter an option: ");
+				var input = InputUtility.InputNumber("\tEnter an option: ");
 				playerSelect = ChooseOption(input);
 				if (playerSelect != (int)RoundMiniGameOptions.InvalidOption)
 					break;

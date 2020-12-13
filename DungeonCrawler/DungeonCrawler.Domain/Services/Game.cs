@@ -18,19 +18,26 @@ namespace DungeonCrawler.Domain.Services
 		public static Monster EnemyMonster { get; set; }
 		public void NewGame()
 		{
+
 			PlayerHero = new Ranger();
-			Console.WriteLine($"Health points: {PlayerHero.Health}\nDamage: {PlayerHero.Damage}\nExperience: {PlayerHero.Experience}\nLevel: {PlayerHero.Level}\n\n");
+			//PlayerHero = Select.SelectHeroClass();
+		//	Console.Clear();
+		//	Select.SetHeroStasts(PlayerHero);
+		//	Console.WriteLine(PlayerHero);
+		//	Thread.Sleep(2500);
+			Console.Clear();
+
 			for (int i = 0; i < GameConfig.numberOfEnemies; i++)
 				GenerateMoster();
-			HelpGenerateMoster();
+		//	HelpGenerateMoster();
 
 			for (var i = 0; i < EnemyList.Count; i++)
 			{
 				var enemy = EnemyList[i];	
 
 				EnemyMonster = enemy;
-				Console.WriteLine("fighting a new enemy");
-				Console.WriteLine($"{PlayerHero.Name}'s health: {PlayerHero.Health}\n{EnemyMonster}");
+				Console.WriteLine($"\t\t\t\tAn enemy {EnemyMonster.MonsterType} approaches");
+				ShowHud();
 				while (PlayerHero.Health > 0 && enemy.Health > 0)
 				{
 
@@ -44,7 +51,8 @@ namespace DungeonCrawler.Domain.Services
 						MiniGame.PlayerWonRound = true;
 						EnemyMonster.IsStuned = false;
 					}
-
+					Console.Clear();
+					ShowHud();
 					if (MiniGame.PlayerWonRound)
 					{
 						UseHeroAbility();
@@ -58,29 +66,18 @@ namespace DungeonCrawler.Domain.Services
 					{
 						if (!mage.AvoidDeath())
 							break;
-
 					}
+					Console.Clear();
+					ShowHud();
 
 
-					Console.WriteLine($"{PlayerHero.Name}'s health: {PlayerHero.Health}\n{EnemyMonster.MonsterType}'s health: {EnemyMonster.Health}\n");
-					Thread.Sleep(1000);
 				}
+				//Thread.Sleep(1000);
 
-				if (PlayerHero.Health < 0)
-				{
-					Console.WriteLine($"You have been defeated by {EnemyMonster.MonsterType}\nGame over.");
-					EnemyList.Clear();
+
+				if (CheckGame() == (int)GameState.Lose)
 					return;
-				}
 
-				if (EnemyMonster.Health < 0)
-				{
-					if (EnemyMonster is Witch) {
-						GenerateMoster();
-						GenerateMoster();
-					}
-					Console.WriteLine($"You have defeated a {EnemyMonster.MonsterType}");
-				}
 			}
 
 			Console.WriteLine($"You have killed in total {EnemyList.Count} monsters\nYou have defeated all enemies! Congratulations!!!");
@@ -259,6 +256,93 @@ namespace DungeonCrawler.Domain.Services
 
 
 			return 1;
+		}
+
+		public int CheckGame()
+		{
+			if (PlayerHero.Health < 0)
+			{
+				Console.WriteLine($"You have been defeated by {EnemyMonster.MonsterType}\nGame over.");
+				EnemyList.Clear();
+				return (int)GameState.Lose;
+			}
+
+			if (EnemyMonster.Health < 0)
+			{
+				if (EnemyMonster is Witch)
+				{
+					GenerateMoster();
+					GenerateMoster();
+				}
+				Console.WriteLine($"You have defeated a {EnemyMonster.MonsterType} and gained {EnemyMonster.Experience} experience points");
+				PlayerHero.Experience += EnemyMonster.Experience;
+			}
+
+			if (PlayerHero.Experience >= GameConfig.defaultExperienceToLevelUp)
+			{
+				if (PlayerHero is Warrior warrior)
+				{
+					warrior.LevelUp();
+
+				}
+				else if (PlayerHero is Mage mage)
+				{
+					mage.LevelUp();
+
+				}
+				else if (PlayerHero is Ranger ranger)
+				{
+					ranger.LevelUp();
+				}
+			}
+
+			return (int)GameState.Play;
+
+		}
+
+		public void ShowHud()
+		{
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write($"Hero name: {PlayerHero.Name}");
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine("{0, 64}", $"Enemy type: {EnemyMonster.MonsterType}");
+
+
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("\t{0, -67}", $"Health: {PlayerHero.Health}/{PlayerHero.MaxHealth}");
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine($"Health: {EnemyMonster.Health}/{EnemyMonster.Health}");
+
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("\t{0,-67}", $"Damage: { PlayerHero.Damage}");
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine($"Damage: {EnemyMonster.Damage}");
+
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.Write("\t{0,-67}", $"Experience: {PlayerHero.Experience}");
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine($"Experience: {EnemyMonster.Experience}");
+
+			if (PlayerHero is Mage mage)
+			{
+				Console.ForegroundColor = ConsoleColor.Blue;
+				Console.WriteLine($"\tMana: {mage.Mana}/{mage.MaxMana}");
+			}
+
+			if (PlayerHero is Ranger ranger)
+			{
+				Console.ForegroundColor = ConsoleColor.Blue;
+				Console.Write($"\tCritical hit chance: ");
+				Console.WriteLine(string.Format("{0:n3}", ranger.CriticalChance));
+				Console.Write($"\tStun Chance: ");
+				Console.WriteLine(string.Format("{0:n3}", ranger.StunChance));
+
+			}
+
+			Console.Write("\n");
+			Console.ResetColor();
+			return;
+
 		}
 
 	}

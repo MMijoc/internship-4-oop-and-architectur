@@ -11,6 +11,7 @@ namespace DungeonCrawler.Data
 
 		public static int numberOfEnemies = 10;
 		public static int defaultHealth = 500;
+		public static int defaultExperienceToLevelUp = 1000;
 		//public static int defaultDamage = 100;
 
 
@@ -51,6 +52,23 @@ namespace DungeonCrawler.Data
 		public static int goblinDefaultExperience = 250;
 		public static int bruteDefaultExperience = 500;
 		public static int witchDefaultExperience = 1000;
+
+
+		// Level up stats increase
+		public static int warriorLevelUpHealthIncrease = 100;
+		public static int warriorLevelUpDamageIncrease = 25;
+
+		public static int mageLevelUpHealthIncrease = 25;
+		public static int mageLevelUpDamageIncrease = 100;
+		public static int mageLevelUpManaIncrease = 100;
+
+		public static int rangerLevelUpHealthIncrease = 50;
+		public static int rangerLevelUpDamageIncrease = 50;
+		public static double rangerLevelUpCriticalChanceIncrease = 0.05;
+		public static double rangerLevelUpStunChanceIncrease = 0.05;
+
+
+
 
 
 		// Default health, damage and experience modifiers

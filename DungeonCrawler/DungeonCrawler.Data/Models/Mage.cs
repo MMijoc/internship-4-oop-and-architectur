@@ -7,12 +7,16 @@ namespace DungeonCrawler.Data.Models
 		public Mage()
 		{
 			Health = GameConfig.mageDefaultHealth;
+			MaxHealth = GameConfig.mageDefaultHealth;
 			Damage = GameConfig.mageDefaultDamage;
 			Experience = GameConfig.heroDefaultExperience;
 			Mana = GameConfig.mageDefaultMana;
+			MaxMana = GameConfig.mageDefaultMana; ;
 			HasAvoidedDeath = false;
 		}
 		public int Mana { get; set; }
+
+		public int MaxMana { get; set; }
 
 		public bool HasAvoidedDeath { get; set; }
 
@@ -40,6 +44,7 @@ namespace DungeonCrawler.Data.Models
 
 			Console.WriteLine($"Hell spell restores {GameConfig.mageHealMagnitude} health points");
 			Health += GameConfig.mageHealMagnitude;
+			Mana -= GameConfig.mageHealManaCost;
 			return true;
 		}
 
@@ -55,11 +60,36 @@ namespace DungeonCrawler.Data.Models
 			if (HasAvoidedDeath) 
 				return false;
 
-			Mana = GameConfig.mageDefaultMana / 2;
-			Health = GameConfig.mageDefaultHealth;
+			Mana = MaxMana;
+			Health = MaxHealth;
 			HasAvoidedDeath = true;
 			return true;
 		}
 
+		public void LevelUp()
+		{
+			if (Experience >= GameConfig.defaultExperienceToLevelUp)
+			{
+				Console.WriteLine("You have gained a new level");
+				Experience -= GameConfig.defaultExperienceToLevelUp;
+				MaxHealth += GameConfig.mageLevelUpHealthIncrease;
+				Damage += GameConfig.mageLevelUpDamageIncrease;
+				MaxMana += GameConfig.mageLevelUpManaIncrease;
+
+				return;
+			}
+			else
+			{
+				return;
+			}
+
+
+		}
+
+		public override string ToString()
+		{
+			return $"Hero name: {Name}\n\tHealth: {Health}/{MaxHealth}\n\tMana: {Mana}/{MaxMana}\n\tExperience: {Experience}\n\tLevel: {Level}";
+
+		}
 	}
 }
