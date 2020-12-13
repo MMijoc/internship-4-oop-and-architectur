@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DungeonCrawler.Data.Models
 {
@@ -8,20 +6,59 @@ namespace DungeonCrawler.Data.Models
 	{
 		public Mage()
 		{
-			Health = GameData.mageDefaultHealth;
-			Damage = GameData.mageDefaultHealth;
-			//Experience = GameData.witchDefaultExperience;
+			Health = GameConfig.mageDefaultHealth;
+			Damage = GameConfig.mageDefaultDamage;
+			Experience = GameConfig.heroDefaultExperience;
+			Mana = GameConfig.mageDefaultMana;
+			HasAvoidedDeath = false;
 		}
 		public int Mana { get; set; }
 
-		public void Heal() 
-		{
-			if (Mana < 10) //HealManaCost
-				return;//insufficient mana to use this ability
+		public bool HasAvoidedDeath { get; set; }
 
-			Mana -= 10;
+		public bool Attack(Monster monster)
+		{
+			if (Mana < GameConfig.mageAttackManaCost)
+			{
+				Console.WriteLine("Insufficient mana to cast this spell!");
+				return false;
+			}
+
+			monster.Health -= Damage;
+			Mana -= GameConfig.mageAttackManaCost;
+
+			return true;
+		}
+
+		public bool HealSpell()
+		{
+			if (Mana < GameConfig.mageHealManaCost)
+			{
+				Console.WriteLine("Insufficient mana to cast this spell!");
+				return false;
+			}
+
+			Console.WriteLine($"Hell spell restores {GameConfig.mageHealMagnitude} health points");
+			Health += GameConfig.mageHealMagnitude;
+			return true;
+		}
+
+		public void RegenerateMana()
+		{
+			Console.WriteLine($"Mana full restored to {GameConfig.mageDefaultMana} points");
+			Health += GameConfig.mageHealMagnitude;
 			return;
-		
+		}
+
+		public bool AvoidDeath()
+		{
+			if (HasAvoidedDeath) 
+				return false;
+
+			Mana = GameConfig.mageDefaultMana / 2;
+			Health = GameConfig.mageDefaultHealth;
+			HasAvoidedDeath = true;
+			return true;
 		}
 
 	}

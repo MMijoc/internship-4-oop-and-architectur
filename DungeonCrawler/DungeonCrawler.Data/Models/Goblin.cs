@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DungeonCrawler.Data.Models
 {
@@ -9,9 +7,16 @@ namespace DungeonCrawler.Data.Models
 		public Goblin()
 		{
 			var rnd = new Random();
-			Health = GameData.goblinDefaultHealth + rnd.Next(-GameData.goblinHealthModifer, GameData.goblinHealthModifer);
-			Damage = GameData.goblinDefaultDamage + rnd.Next(-GameData.goblinDamageModifer, GameData.goblinDamageModifer); ;
-			Experience = GameData.goblinDefaultExperience + rnd.Next(-GameData.goblinExperienceModifer, GameData.goblinExperienceModifer);
+			Health = GameConfig.goblinDefaultHealth + rnd.Next(-GameConfig.goblinHealthModifier, GameConfig.goblinHealthModifier);
+			Damage = GameConfig.goblinDefaultDamage + rnd.Next(-GameConfig.goblinDamageModifier, GameConfig.goblinDamageModifier);
+			Experience = GameConfig.goblinDefaultExperience + rnd.Next(-GameConfig.goblinExperienceModifier, GameConfig.goblinExperienceModifier);
+
+			MonsterType = "Goblin";
+		}
+
+		public void Attack(Hero hero)
+		{
+			hero.Health -= Damage;
 		}
 	}
 }

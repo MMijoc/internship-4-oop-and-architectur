@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DungeonCrawler.Data.Models
 {
@@ -9,9 +8,31 @@ namespace DungeonCrawler.Data.Models
 		public Witch()
 		{
 			var rnd = new Random();
-			Health = GameData.witchDefaultHealth + rnd.Next(-GameData.witchHealthModifer, GameData.witchHealthModifer);
-			Damage = GameData.witchDefaultDamage + rnd.Next(-GameData.witchDamageModifer, GameData.witchDamageModifer); ;
-			Experience = GameData.witchDefaultExperience + rnd.Next(-GameData.witchExperienceModifer, GameData.witchExperienceModifer);
+			Health = GameConfig.witchDefaultHealth + rnd.Next(-GameConfig.witchHealthModifier, GameConfig.witchHealthModifier);
+			Damage = GameConfig.witchDefaultDamage + rnd.Next(-GameConfig.witchDamageModifier, GameConfig.witchDamageModifier);
+			Experience = GameConfig.witchDefaultExperience + rnd.Next(-GameConfig.witchExperienceModifier, GameConfig.witchExperienceModifier);
+			
+			MonsterType = "Witch";
+		}
+
+		public void Attack(Hero hero)
+		{
+			hero.Health -= Damage;
+		}
+
+		public void Mayhem(Hero hero, List<Monster> enemyList)
+		{
+			var rnd = new Random();
+			Health = rnd.Next(1, GameConfig.defaultHealth);
+			hero.Health = rnd.Next(1, GameConfig.defaultHealth);
+			foreach (var entity in enemyList)
+			{
+				if (entity.Health > 0)
+					entity.Health = rnd.Next(1, GameConfig.defaultHealth);
+			}
+			Console.WriteLine("Witch casts mayhem spell! Hero's and every enemy's health points are randomized");
+
+			return;
 		}
 	}
 }

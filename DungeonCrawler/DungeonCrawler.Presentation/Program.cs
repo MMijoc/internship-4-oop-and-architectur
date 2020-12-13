@@ -21,9 +21,10 @@ namespace DungeonCrawler.Presentation
 				switch (select)
 				{
 					case (int)MainMenuOptions.NewGame:
+						var newGame = new Game();
 						Console.Clear();
-						Game.NewGame();
-						return;
+						newGame.NewGame();
+						break;
 					case (int)MainMenuOptions.Help:
 						break;
 					case (int)MainMenuOptions.ExitGame:

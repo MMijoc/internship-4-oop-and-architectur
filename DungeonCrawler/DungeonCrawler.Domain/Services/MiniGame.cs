@@ -9,7 +9,7 @@ namespace DungeonCrawler.Domain.Services
 {
 	public static class MiniGame
 	{
-		static bool _playerWonRound;
+		public static bool PlayerWonRound { get; set; }
 		static bool _isADraw;
 
 		public static void NewMiniGame()
@@ -29,14 +29,14 @@ namespace DungeonCrawler.Domain.Services
 				Console.WriteLine($"{EnumUtility.GetDescription((RoundMiniGameOptions)enemySelect)}");
 				Console.ResetColor();
 
-				if (IsADraw())
+				if (_isADraw)
 				{
 					Console.WriteLine("It's a Draw");
 					Thread.Sleep(1500);
 					continue;
 				}
 
-				if (PlayerWonRound())
+				if (PlayerWonRound)
 				{
 					Console.ForegroundColor = ConsoleColor.Blue;
 					Console.WriteLine("PLAYER WON!");
@@ -63,7 +63,6 @@ namespace DungeonCrawler.Domain.Services
 
 			while (true)
 			{
-				Console.Clear();
 				EnumUtility.PrintMenu(new RoundMiniGameOptions());
 				var input = InputUtility.InputNumber("Enter an option: ");
 				playerSelect = ChooseOption(input);
@@ -109,13 +108,13 @@ namespace DungeonCrawler.Domain.Services
 				if (enemySelect == (int)RoundMiniGameOptions.Scissors)
 				{
 					_isADraw = false;
-					_playerWonRound = true;
+					PlayerWonRound = true;
 					return;
 				}
 				else
 				{
 					_isADraw = false;
-					_playerWonRound = false;
+					PlayerWonRound = false;
 					return;
 				}
 			}
@@ -124,13 +123,13 @@ namespace DungeonCrawler.Domain.Services
 				if (enemySelect == (int)RoundMiniGameOptions.Rock)
 				{
 					_isADraw = false;
-					_playerWonRound = true;
+					PlayerWonRound = true;
 					return;
 				}
 				else
 				{
 					_isADraw = false;
-					_playerWonRound = false;
+					PlayerWonRound = false;
 					return;
 				}
 			}
@@ -139,33 +138,16 @@ namespace DungeonCrawler.Domain.Services
 				if (enemySelect == (int)RoundMiniGameOptions.Paper)
 				{
 					_isADraw = false;
-					_playerWonRound = true;
+					PlayerWonRound = true;
 					return;
 				}
 				else
 				{
 					_isADraw = false;
-					_playerWonRound = false;
+					PlayerWonRound = false;
 					return;
 				}
 			}
 		}
-
-		public static bool PlayerWonRound()
-		{
-			if (_playerWonRound)
-				return true;
-			else
-				return false;
-		}
-
-		public static bool IsADraw()
-		{
-			if (_isADraw)
-				return true;
-			else
-				return false;
-		}
-
 	}
 }
